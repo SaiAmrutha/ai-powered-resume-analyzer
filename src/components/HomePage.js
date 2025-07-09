@@ -1,6 +1,29 @@
-import axios from "axios";
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { calculateMatchScore } from "../utils/calculateMatchScore";
+import { GEMINI_API_KEY } from "../utils/constants";
+import { extractPdfText } from "../utils/extractPdfText";
+
+// geminiAPI call to get AI suggestions
+const fetchGeminiSuggestions = async (resumeText, jobDescription) => {
+  const prompt = `Here is a resume:\n${resumeText}\n\nAnd here is a job description:\n${jobDescription}\n\nSuggest resume improvements to better match the job description.`;
+
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+      }),
+    }
+  );
+  const data = await response.json();
+  const suggestion = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  return suggestion || "No AI suggestions available.";
+};
 
 function HomePage() {
   const [files, setFiles] = useState([]);
@@ -44,44 +67,23 @@ function HomePage() {
       setMessage("Please upload a resume and enter job description.");
       return;
     }
-
-    const formData = new FormData();
-    formData.append("resume", files[0]); //use only the 1st file
-    formData.append("jobDescription", jobDescription);
-
     try {
-      setMessage("Uploading..");
-      setUploadProgress(0);
+      setMessage("Extracting text...");
+      const resumeText = await extractPdfText(files[0]);
+      setExtractedText(resumeText);
 
-      const response = await axios.post(
-        "http://localhost:8080/api/resume/analyze-resume",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          onUploadProgress: (progressEvent) => {
-            if (progressEvent.total) {
-              const percentCompleted = Math.round(
-                (progressEvent.loaded * 100) / progressEvent.total
-              );
-              setUploadProgress(percentCompleted);
-            }
-          },
-        }
+      const score = calculateMatchScore(resumeText || "", jobDescription || "");
+      setMatchScore(score);
+      setMessage("Fetching AI suggestions from Gemini...");
+      const suggestion = await fetchGeminiSuggestions(
+        resumeText,
+        jobDescription
       );
-
-      console.log("Match Score API response:", response.data); //debugging log
-
-      setMatchScore(Math.round(response.data.matchScore)); //store matchsocre
-      setSuggestions(response.data.aiSuggestions);
-      setExtractedText(response.data.extractedText);
+      setSuggestions(suggestion);
       setMessage("Resume analyzed successfully!");
-      setUploadProgress(100);
     } catch (error) {
-      console.error("Error during file upload:", error);
-      setMessage("Error analyzing resume. Please try again");
-      setUploadProgress(null);
+      console.error("Error during file handling:", error);
+      setMessage("Something went wrong while analyzing the resume.");
     }
   };
 
@@ -131,9 +133,9 @@ function HomePage() {
 
       {/* job description input */}
       <div className="mb-6">
-        <lable className="block text-lg font-bold mb-2 text-center">
+        <label className="block text-lg font-bold mb-2 text-center">
           Job Description
-        </lable>
+        </label>
         <textarea
           placeholder="Paste job description here..."
           value={jobDescription}
