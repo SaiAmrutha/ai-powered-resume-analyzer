@@ -142,6 +142,28 @@ function HomePage() {
           onChange={(e) => setJobDescription(e.target.value)}
           className="w-full h-64 p-4 border-2 border-gray-500 rounded text-base"
         ></textarea>
+
+        {/* word + character count display */}
+        <div className="flex justify-between text-sm text-gray-600">
+          <p>
+            Word count:
+            {jobDescription.trim().split(/\s+/).filter(Boolean).length}
+          </p>
+          <p>Characters: {jobDescription.length}</p>
+        </div>
+
+        {/* word count validation message */}
+        {jobDescription.trim().split(/\s+/).filter(Boolean).length < 30 && (
+          <p className="text-red-600 text-sm mt-1">
+            Minimum 30 words required to analyze effictively.
+          </p>
+        )}
+
+        {jobDescription.trim().split(/\s+/).filter(Boolean).length > 500 && (
+          <p className="text-yellow-500 text-sm mt-1">
+            Job description is too long. Consider trimming to under 300 words.
+          </p>
+        )}
       </div>
 
       {/* Match score */}
