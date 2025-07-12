@@ -1,31 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { calculateMatchScore } from "../utils/calculateMatchScore";
 import { GEMINI_API_KEY } from "../utils/constants";
 import { extractPdfText } from "../utils/extractPdfText";
 import { formatSuggestionsToHTML } from "../utils/formatSuggestions";
 import CompareResumeModal from "./CompareResumeModal";
-
-// geminiAPI call to get AI suggestions
-const fetchGeminiSuggestions = async (resumeText, jobDescription) => {
-  const prompt = `Here is a resume:\n${resumeText}\n\nAnd here is a job description:\n${jobDescription}\n\nSuggest resume improvements to better match the job description.`;
-
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-      }),
-    }
-  );
-  const data = await response.json();
-  const suggestion = data.candidates?.[0]?.content?.parts?.[0]?.text;
-  return suggestion || "No AI suggestions available.";
-};
+import { SuggestionsPDF } from "./SuggestionsPDF";
 
 function HomePage() {
   const [files, setFiles] = useState([]);
@@ -36,6 +16,7 @@ function HomePage() {
   const [suggestions, setSuggestions] = useState("");
   const [extractedText, setExtractedText] = useState("");
   const [showCompareModal, setShowCompareModal] = useState(false);
+  const suggestionsRef = useRef(null);
 
   // file upload section for PDF or docx
   const {
@@ -106,6 +87,27 @@ function HomePage() {
     setShowCompareModal(true);
   };
 
+  // geminiAPI call to get AI suggestions
+  const fetchGeminiSuggestions = async (resumeText, jobDescription) => {
+    const prompt = `Here is a resume:\n${resumeText}\n\nAnd here is a job description:\n${jobDescription}\n\nSuggest resume improvements to better match the job description.`;
+
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+        }),
+      }
+    );
+    const data = await response.json();
+    const suggestion = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    return suggestion || "No AI suggestions available.";
+  };
+
   return (
     <div className="p-5 font-sans max-w-5xl mx-auto">
       <h1 className="text-5xl font-bold pt-5 mb-5 text-center">
@@ -125,7 +127,7 @@ function HomePage() {
             e.stopPropagation();
             openFileDialog();
           }}
-          className="bg-green-600 hover:bg-green-600 font-bold text-white px-4 py-2 rounded-md"
+          className="bg-green-400 font-bold text-white px-4 py-2 rounded-md hover:bg-green-800"
         >
           Upload File
         </button>
@@ -165,7 +167,7 @@ function HomePage() {
         {/* word + character count display */}
         <div className="flex justify-between text-sm text-gray-600">
           <p>
-            Word count -
+            Word count -{" "}
             {jobDescription.trim().split(/\s+/).filter(Boolean).length}
           </p>
           <p>Characters - {jobDescription.length}</p>
@@ -178,9 +180,9 @@ function HomePage() {
           </p>
         )}
 
-        {jobDescription.trim().split(/\s+/).filter(Boolean).length > 500 && (
+        {jobDescription.trim().split(/\s+/).filter(Boolean).length > 400 && (
           <p className="text-yellow-500 text-lg mt-1">
-            Job description is too long. Consider trimming to under 300 words.
+            Job description is too long. Consider trimming to under 400 words.
           </p>
         )}
       </div>
@@ -202,7 +204,10 @@ function HomePage() {
 
       {/* AI Suggestions + Compare Button */}
       {suggestions && (
-        <div className="border-2 border-blue-600 p-4 rounded bg-lime-200 mt-5">
+        <div
+          className="border-2 border-blue-600 p-4 rounded bg-lime-200 mt-5"
+          ref={suggestionsRef}
+        >
           <h3 className="text-3xl font-semibold mb-2">
             Resume Improvement Suggestions:
           </h3>
@@ -212,6 +217,19 @@ function HomePage() {
               __html: formatSuggestionsToHTML(suggestions),
             }}
           ></div>
+
+          {/* Download button */}
+          {/* <button
+            onClick={handleDownloadPDF}
+            className="mt-4 mr-4 px-4 py-2 bg-green-600 text-white font-bold rounded-md hover:bg-green-900"
+          >
+            Download PDF
+          </button> */}
+
+          <SuggestionsPDF
+            resumeText={extractedText}
+            suggestions={suggestions}
+          />
 
           {/* compare button */}
           <button
