@@ -51,35 +51,53 @@ function HomePage() {
 
   // submit button functionality
   const handleSubmit = async () => {
+    let resumeText = "";
+    let score = 0;
+    let suggestion = "";
+
     if (files.length === 0 && jobDescription.trim() === "") {
       setMessage("Please upload a resume and enter job description.");
       return;
     } else if (files.length === 0) {
       setMessage("Please upload a resume.");
+      return;
     } else if (jobDescription.trim() === "") {
       setMessage("Please enter job description.");
-    } else {
-      try {
-        setMessage("Extracting text...");
-        const resumeText = await extractPdfText(files[0]);
-        setExtractedText(resumeText);
+      return;
+    }
 
-        const score = calculateMatchScore(
-          resumeText || "",
-          jobDescription || ""
-        );
-        setMatchScore(score);
-        setMessage("Fetching AI suggestions from Gemini...");
-        const suggestion = await fetchGeminiSuggestions(
-          resumeText,
-          jobDescription
-        );
-        setSuggestions(suggestion);
-        setMessage("Resume analyzed successfully!");
-      } catch (error) {
-        console.error("Error during file handling:", error);
-        setMessage("Something went wrong while analyzing the resume.");
-      }
+    try {
+      setMessage("Extracting text...");
+      resumeText = await extractPdfText(files[0]);
+      setExtractedText(resumeText);
+
+      score = calculateMatchScore(resumeText || "", jobDescription || "");
+      setMatchScore(score);
+      setMessage("Fetching AI suggestions from Gemini...");
+
+      suggestion = await fetchGeminiSuggestions(resumeText, jobDescription);
+      setSuggestions(suggestion);
+      setMessage("Resume analyzed successfully!");
+
+      const historyEntry = {
+        id: Date.now(), //unique
+        resumeName: files[0]?.name || "Unnamed",
+        resumeText,
+        jobDescription,
+        suggestions: suggestion,
+        matchScore: score, //using the local variable and not the state
+        timestamp: new Date().toISOString(),
+      };
+
+      const prevHistory =
+        JSON.parse(localStorage.getItem("resumeHistory")) || [];
+      localStorage.setItem(
+        "resumeHistory",
+        JSON.stringify([historyEntry, ...prevHistory])
+      );
+    } catch (error) {
+      console.error("Error during file handling:", error);
+      setMessage("Something went wrong while analyzing the resume.");
     }
   };
 
@@ -110,6 +128,12 @@ function HomePage() {
 
   return (
     <div className="p-5 font-sans max-w-5xl mx-auto">
+      <button
+        onClick={() => (window.location.href = "/history")}
+        className="absolute top-5 right-6 bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-900"
+      >
+        View History
+      </button>
       <h1 className="text-5xl font-bold pt-5 mb-5 text-center">
         AI-Powered Resume Analyzer
       </h1>
@@ -252,7 +276,7 @@ function HomePage() {
       )}
       <button
         onClick={handleSubmit}
-        className="mt-6 font-bold bg-blue-400 hover:bg-blue-800 text-white text- px-6 py-3 rounded-md shadow"
+        className="mt-6 font-bold bg-blue-400 hover:bg-blue-800 text-white  px-6 py-3 rounded-md shadow"
       >
         Submit
       </button>

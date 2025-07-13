@@ -84,7 +84,7 @@ export function SuggestionsPDF({ resumeText, suggestions }) {
         loading ? (
           "Generating PDF..."
         ) : (
-          <button className="mt-4 px-4 py-2 bg-purple-600 text-white font-bold rounded-md hover:bg-purple-900">
+          <button className="mt-4 px-4 py-2 text-sm bg-purple-600 text-white font-bold rounded-md hover:bg-purple-900">
             Download PDF
           </button>
         )
