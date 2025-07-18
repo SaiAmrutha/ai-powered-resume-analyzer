@@ -128,15 +128,19 @@ function HomePage() {
 
   return (
     <div className="p-5 font-sans max-w-5xl mx-auto">
-      <button
-        onClick={() => (window.location.href = "/history")}
-        className="absolute top-5 right-6 bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-900"
-      >
-        View History
-      </button>
       <h1 className="text-5xl font-bold pt-5 mb-5 text-center">
         AI-Powered Resume Analyzer
       </h1>
+
+      <div className="flex justify-end">
+        <button
+          onClick={() => (window.location.href = "/history")}
+          // className="absolute top-5 right-6 bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-900"
+          className="bg-gray-500 text-white text-3xl font-bold px-2 py-2 mb-5 rounded-lg hover:bg-gray-800"
+        >
+          View History ⏲
+        </button>
+      </div>
 
       {/* dropzone */}
       <div
@@ -242,14 +246,6 @@ function HomePage() {
             }}
           ></div>
 
-          {/* Download button */}
-          {/* <button
-            onClick={handleDownloadPDF}
-            className="mt-4 mr-4 px-4 py-2 bg-green-600 text-white font-bold rounded-md hover:bg-green-900"
-          >
-            Download PDF
-          </button> */}
-
           <SuggestionsPDF
             resumeText={extractedText}
             suggestions={suggestions}
@@ -257,7 +253,7 @@ function HomePage() {
 
           {/* compare button */}
           <button
-            className="mt-4 px-4 py-2 bg-purple-600 text-white font-bold rounded-md hover:bg-purple-900"
+            className="bg-green-800 font-bold text-white px-4 py-2 mt-3 rounded-md hover:bg-green-400"
             onClick={handleCompareClick}
           >
             Compare Resume
