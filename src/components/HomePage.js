@@ -127,160 +127,162 @@ function HomePage() {
   };
 
   return (
-    <div className="p-5 font-sans max-w-5xl mx-auto">
-      <h1 className="text-5xl font-bold pt-5 mb-5 text-center">
-        AI-Powered Resume Analyzer
-      </h1>
+    <div className="min-h-screen bg-gradient-to-br from-stone-400 to-yellow-400">
+      <div className="p-5 font-sans max-w-5xl mx-auto">
+        <h1 className="text-5xl font-bold pt-5 mb-5 text-center">
+          AI-Powered Resume Analyzer
+        </h1>
 
-      <div className="flex justify-end">
-        <button
-          onClick={() => (window.location.href = "/history")}
-          // className="absolute top-5 right-6 bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-900"
-          className="bg-gray-500 text-white text-3xl font-bold px-2 py-2 mb-5 rounded-lg hover:bg-gray-800"
-        >
-          View History ⏲
-        </button>
-      </div>
-
-      {/* dropzone */}
-      <div
-        {...getRootProps()}
-        className="border-4 border-dashed border-green-600 p-6 rounded-lg mb-5 flex flex-col items-center"
-      >
-        <input {...getInputProps()} />
-        <p className="text-lg font-semibold mb-2">Drag and drop a file or</p>
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            openFileDialog();
-          }}
-          className="bg-green-400 font-bold text-white px-4 py-2 rounded-md hover:bg-green-800"
-        >
-          Upload File
-        </button>
-      </div>
-
-      {/* upload progress */}
-      {uploadProgress !== null && (
-        <div className="w-full bg-gray-400 h-5 rounded mb-4">
-          <div
-            className="bg-green-600 h-5 text-white text-center text-sm rounded"
-            style={{ width: `{uploadProgress}%` }}
-          >
-            {uploadProgress}%
-          </div>
-        </div>
-      )}
-
-      {/* display uploaded file name */}
-      {files.map((file, index) => (
-        <p key={index} className="text-sm mb-1">
-          {file.name}
-        </p>
-      ))}
-
-      {/* job description input */}
-      <div className="mb-6">
-        <label className="block text-3xl font-bold mb-2 text-center">
-          Job Description
-        </label>
-        <textarea
-          placeholder="Paste job description here..."
-          value={jobDescription}
-          onChange={(e) => setJobDescription(e.target.value)}
-          className="w-full h-64 p-4 border-2 border-gray-500 rounded text-base"
-        ></textarea>
-
-        {/* word + character count display */}
-        <div className="flex justify-between text-sm text-gray-600">
-          <p>
-            Word count -{" "}
-            {jobDescription.trim().split(/\s+/).filter(Boolean).length}
-          </p>
-          <p>Characters - {jobDescription.length}</p>
-        </div>
-
-        {/* word count validation message */}
-        {jobDescription.trim().split(/\s+/).filter(Boolean).length < 30 && (
-          <p className="text-red-600 text-lg mt-1">
-            Minimum 30 words required to analyze effictively.
-          </p>
-        )}
-
-        {jobDescription.trim().split(/\s+/).filter(Boolean).length > 400 && (
-          <p className="text-yellow-500 text-lg mt-1">
-            Job description is too long. Consider trimming to under 400 words.
-          </p>
-        )}
-      </div>
-
-      {/* Match score */}
-      {matchScore !== null && (
-        <p
-          className={`text-xl font-bold mb-4 text-center ${
-            matchScore >= 70
-              ? "text-green-600"
-              : matchScore >= 40
-              ? "text-yellow-500"
-              : "text-red-600"
-          }`}
-        >
-          MATCH SCORE - {matchScore}%
-        </p>
-      )}
-
-      {/* AI Suggestions + Compare Button */}
-      {suggestions && (
-        <div
-          className="border-2 border-blue-600 p-4 rounded bg-lime-200 mt-5"
-          ref={suggestionsRef}
-        >
-          <h3 className="text-3xl font-semibold mb-2">
-            Resume Improvement Suggestions:
-          </h3>
-          <div
-            className="whitespace-pre-wrap text-sm"
-            dangerouslySetInnerHTML={{
-              __html: formatSuggestionsToHTML(suggestions),
-            }}
-          ></div>
-
-          <SuggestionsPDF
-            resumeText={extractedText}
-            suggestions={suggestions}
-          />
-
-          {/* compare button */}
+        <div className="flex justify-end">
           <button
-            className="bg-green-800 font-bold text-white px-4 py-2 mt-3 rounded-md hover:bg-green-400"
-            onClick={handleCompareClick}
+            onClick={() => (window.location.href = "/history")}
+            // className="absolute top-5 right-6 bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-900"
+            className="bg-gray-500 text-white text-3xl font-bold px-2 py-2 mb-5 rounded-lg hover:bg-gray-800"
           >
-            Compare Resume
+            View History ⏲
           </button>
         </div>
-      )}
 
-      {/* Compare Modal */}
-      {showCompareModal && (
-        <CompareResumeModal
-          isOpen={true}
-          originalText={extractedText}
-          suggestedText={suggestions}
-          onClose={() => setShowCompareModal(false)}
-        />
-      )}
-      <button
-        onClick={handleSubmit}
-        className="mt-6 font-bold bg-blue-400 hover:bg-blue-800 text-white  px-6 py-3 rounded-md shadow"
-      >
-        Submit
-      </button>
-      {message && (
-        <p className="mt-4 text-center text-4xl font-bold p-3 bg-slate-500 text-blue-950">
-          {message}
-        </p>
-      )}
+        {/* dropzone */}
+        <div
+          {...getRootProps()}
+          className="border-4 border-dashed border-green-600 p-6 rounded-lg mb-5 flex flex-col items-center"
+        >
+          <input {...getInputProps()} />
+          <p className="text-lg font-semibold mb-2">Drag and drop a file or</p>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              openFileDialog();
+            }}
+            className="bg-green-400 font-bold text-white px-4 py-2 rounded-md hover:bg-green-800"
+          >
+            Upload File
+          </button>
+        </div>
+
+        {/* upload progress */}
+        {uploadProgress !== null && (
+          <div className="w-full bg-gray-400 h-5 rounded mb-4">
+            <div
+              className="bg-green-600 h-5 text-white text-center text-sm rounded"
+              style={{ width: `{uploadProgress}%` }}
+            >
+              {uploadProgress}%
+            </div>
+          </div>
+        )}
+
+        {/* display uploaded file name */}
+        {files.map((file, index) => (
+          <p key={index} className="text-sm mb-1">
+            {file.name}
+          </p>
+        ))}
+
+        {/* job description input */}
+        <div className="mb-6">
+          <label className="block text-3xl font-bold mb-2 text-center">
+            Job Description
+          </label>
+          <textarea
+            placeholder="Paste job description here..."
+            value={jobDescription}
+            onChange={(e) => setJobDescription(e.target.value)}
+            className="w-full h-64 p-4 border-8 border-gray-500 rounded text-base"
+          ></textarea>
+
+          {/* word + character count display */}
+          <div className="flex justify-between text-sm text-gray-600">
+            <p>
+              Word count -{" "}
+              {jobDescription.trim().split(/\s+/).filter(Boolean).length}
+            </p>
+            <p>Characters - {jobDescription.length}</p>
+          </div>
+
+          {/* word count validation message */}
+          {jobDescription.trim().split(/\s+/).filter(Boolean).length < 30 && (
+            <p className="text-red-600 text-lg mt-1">
+              Minimum 30 words required to analyze effictively.
+            </p>
+          )}
+
+          {jobDescription.trim().split(/\s+/).filter(Boolean).length > 400 && (
+            <p className="text-yellow-500 text-lg mt-1">
+              Job description is too long. Consider trimming to under 400 words.
+            </p>
+          )}
+        </div>
+
+        {/* Match score */}
+        {matchScore !== null && (
+          <p
+            className={`text-xl font-bold mb-4 text-center ${
+              matchScore >= 70
+                ? "text-green-600"
+                : matchScore >= 40
+                ? "text-yellow-500"
+                : "text-red-600"
+            }`}
+          >
+            MATCH SCORE - {matchScore}%
+          </p>
+        )}
+
+        {/* AI Suggestions + Compare Button */}
+        {suggestions && (
+          <div
+            className="border-2 border-blue-600 p-4 rounded bg-slate-400 mt-5"
+            ref={suggestionsRef}
+          >
+            <h3 className="text-3xl font-semibold mb-2">
+              Resume Improvement Suggestions:
+            </h3>
+            <div
+              className="whitespace-pre-wrap text-sm"
+              dangerouslySetInnerHTML={{
+                __html: formatSuggestionsToHTML(suggestions),
+              }}
+            ></div>
+
+            <SuggestionsPDF
+              resumeText={extractedText}
+              suggestions={suggestions}
+            />
+
+            {/* compare button */}
+            <button
+              className="bg-green-800 font-bold text-white px-4 py-2 mt-3 rounded-md hover:bg-green-400"
+              onClick={handleCompareClick}
+            >
+              Compare Resume
+            </button>
+          </div>
+        )}
+
+        {/* Compare Modal */}
+        {showCompareModal && (
+          <CompareResumeModal
+            isOpen={true}
+            originalText={extractedText}
+            suggestedText={suggestions}
+            onClose={() => setShowCompareModal(false)}
+          />
+        )}
+        <button
+          onClick={handleSubmit}
+          className="mt-6 font-bold bg-blue-400 hover:bg-blue-800 text-white  px-6 py-3 rounded-md shadow"
+        >
+          Submit
+        </button>
+        {message && (
+          <p className="mt-4 text-center text-4xl font-bold p-3 bg-slate-500 text-blue-950">
+            {message}
+          </p>
+        )}
+      </div>
     </div>
   );
 }

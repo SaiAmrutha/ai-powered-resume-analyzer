@@ -30,16 +30,8 @@ export function ResumeDocument({ resumeText, suggestions }) {
   return (
     <Document>
       <Page style={styles.page}>
-        {/* <View style={styles.section}>
-          <Text style={styles.heading}>Original Resume</Text>
-          <Text style={styles.bodyText}>{sanitizeText(resumeText)}</Text>
-        </View> */}
-
         <View style={styles.section}>
           <Text style={styles.heading}>AI Suggestions</Text>
-          {/* <Text style={styles.bodyText}>
-            {sanitizeText(suggestions || "No AI suggestions available.")}
-          </Text> */}
           {formattedSuggestions.map((item) => (
             <Text
               key={item.id}
@@ -52,13 +44,8 @@ export function ResumeDocument({ resumeText, suggestions }) {
             >
               {item.type === "bullet" ? "o " : ""}
               {sanitizeText(item.text || "No AI suggestions available.")}
-              {/* {item.text} */}
             </Text>
           ))}
-
-          {/* {suggestionItems.map((line, idx) => (
-            <View key={idx} style={styles.bullet}></View>
-          ))} */}
         </View>
       </Page>
     </Document>
