@@ -142,8 +142,8 @@ function HomePage() {
       <div className="p-5 font-sans max-w-5xl mx-auto">
         {activeTab === "analyzer" && (
           <>
-            <h1 className="text-5xl font-bold pt-5 mb-5 mt-[-8%] text-center">
-              AI-Powered Resume Analyzer
+            <h1 className="text-5xl font-bold pt-5 mb-5 mt-[-8%] text-center bg-gradient-to-br from-indigo-800 to-green-700 bg-clip-text text-transparent">
+              Your Resume. Smarter. Tailored. Ready.
             </h1>
           </>
         )}

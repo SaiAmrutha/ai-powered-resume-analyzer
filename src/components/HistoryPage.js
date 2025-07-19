@@ -64,7 +64,7 @@ function HistoryPage() {
       </button>
 
       <div className="p-10 max-w-6xl mx-auto">
-        <h1 className="text-5xl font-bold text-center mb-4 mt-[-8%] underline text-blue-700">
+        <h1 className="text-5xl font-bold text-center mb-4 mt-[-8%] bg-gradient-to-br from-fuchsia-700 to-orange-600 bg-clip-text text-transparent">
           Resume History
         </h1>
 
