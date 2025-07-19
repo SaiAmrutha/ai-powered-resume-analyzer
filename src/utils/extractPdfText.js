@@ -1,7 +1,6 @@
 import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf";
 import workerSrc from "pdfjs-dist/legacy/build/pdf.worker.entry";
 
-// GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.js`;
 pdfjsLib.GlobalWorkerOptions.workerSrc = workerSrc;
 
 export const extractPdfText = async (file) => {

@@ -56,13 +56,21 @@ function HistoryPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-green-600">
+      <button
+        onClick={() => (window.location.href = "/")}
+        className="bg-gray-500 text-white text-3xl font-bold m-3  px-2 py-2 rounded-lg hover:bg-gray-800"
+      >
+        Main 🏢
+      </button>
+
       <div className="p-10 max-w-6xl mx-auto">
-        <h1 className="text-5xl font-bold text-center mb-4 underline text-blue-700">
+        <h1 className="text-5xl font-bold text-center mb-4 mt-[-8%] underline text-blue-700">
           Resume History
         </h1>
+
         <div className="flex justify-between items-center mb-6">
           <button
-            onClick={() => (window.location.href = "/")}
+            onClick={() => (window.location.href = "/analyzer")}
             className="bg-gray-500 text-white text-3xl font-bold px-2 py-2 rounded-lg hover:bg-gray-800"
           >
             Home 🏠

@@ -5,6 +5,8 @@ import { GEMINI_API_KEY } from "../utils/constants";
 import { extractPdfText } from "../utils/extractPdfText";
 import { formatSuggestionsToHTML } from "../utils/formatSuggestions";
 import CompareResumeModal from "./CompareResumeModal";
+import InsightsModal from "./InsightsModal";
+import InsightsPage from "./InsightsPage";
 import { SuggestionsPDF } from "./SuggestionsPDF";
 
 function HomePage() {
@@ -17,6 +19,8 @@ function HomePage() {
   const [extractedText, setExtractedText] = useState("");
   const [showCompareModal, setShowCompareModal] = useState(false);
   const suggestionsRef = useRef(null);
+  const [activeTab, setActiveTab] = useState("analyzer");
+  const [showInsightsModal, setShowInsightsModal] = useState(false);
 
   // file upload section for PDF or docx
   const {
@@ -128,18 +132,41 @@ function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-stone-400 to-yellow-400">
-      <div className="p-5 font-sans max-w-5xl mx-auto">
-        <h1 className="text-5xl font-bold pt-5 mb-5 text-center">
-          AI-Powered Resume Analyzer
-        </h1>
+      <button
+        onClick={() => (window.location.href = "/")}
+        className="bg-gray-500 text-white text-3xl font-bold m-3 px-2 py-2 rounded-lg hover:bg-gray-800"
+      >
+        Main 🏢
+      </button>
 
-        <div className="flex justify-end">
+      <div className="p-5 font-sans max-w-5xl mx-auto">
+        {activeTab === "analyzer" && (
+          <>
+            <h1 className="text-5xl font-bold pt-5 mb-5 mt-[-8%] text-center">
+              AI-Powered Resume Analyzer
+            </h1>
+          </>
+        )}
+        {activeTab === "insights" && (
+          <div>
+            <InsightsPage />
+          </div>
+        )}
+
+        <div className="flex justify-between">
           <button
             onClick={() => (window.location.href = "/history")}
             // className="absolute top-5 right-6 bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-900"
             className="bg-gray-500 text-white text-3xl font-bold px-2 py-2 mb-5 rounded-lg hover:bg-gray-800"
           >
             View History ⏲
+          </button>
+
+          <button
+            onClick={() => setShowInsightsModal(true)}
+            className="bg-gray-500 text-white text-3xl font-bold px-2 py-2 mb-5 rounded-lg hover:bg-gray-800"
+          >
+            Insights 📊
           </button>
         </div>
 
@@ -149,7 +176,9 @@ function HomePage() {
           className="border-4 border-dashed border-green-600 p-6 rounded-lg mb-5 flex flex-col items-center"
         >
           <input {...getInputProps()} />
-          <p className="text-lg font-semibold mb-2">Drag and drop a file or</p>
+          <p className="text-lg font-semibold mb-2">
+            Drag and drop a file or click on the upload file button below.
+          </p>
           <button
             type="button"
             onClick={(e) => {
@@ -271,12 +300,19 @@ function HomePage() {
             onClose={() => setShowCompareModal(false)}
           />
         )}
+
+        {/* Insights modal */}
+        {showInsightsModal && (
+          <InsightsModal onClose={() => setShowInsightsModal(false)} />
+        )}
+
         <button
           onClick={handleSubmit}
           className="mt-6 font-bold bg-blue-400 hover:bg-blue-800 text-white  px-6 py-3 rounded-md shadow"
         >
           Submit
         </button>
+
         {message && (
           <p className="mt-4 text-center text-4xl font-bold p-3 bg-slate-500 text-blue-950">
             {message}
