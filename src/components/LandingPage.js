@@ -12,7 +12,7 @@ const LandingPage = () => {
         <h1 className="text-5xl font-bold">
           Want to boost your resume with AI?
         </h1>
-        <span className="text-sm pt-3">
+        <span className="text-sm font-bold pt-3 bg-gradient-to-br from-indigo-800 to-green-700 bg-clip-text text-transparent">
           "Your resume deserves to shine. Let AI help it stand out."
         </span>
         <p className="text-lg font-semibold text-gray-800 mb-8 pt-3">

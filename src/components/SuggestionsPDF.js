@@ -31,7 +31,7 @@ export function ResumeDocument({ resumeText, suggestions }) {
     <Document>
       <Page style={styles.page}>
         <View style={styles.section}>
-          <Text style={styles.heading}>AI Suggestions</Text>
+          <Text style={styles.heading}>AI-Powered Resume Suggestions</Text>
           {formattedSuggestions.map((item) => (
             <Text
               key={item.id}
@@ -53,13 +53,13 @@ export function ResumeDocument({ resumeText, suggestions }) {
 }
 
 // Exporting a ready-to-click download button
-export function SuggestionsPDF({ resumeText, suggestions }) {
+export function SuggestionsPDF({ resumeText, suggestions, fileName }) {
   return (
     <PDFDownloadLink
       document={
         <ResumeDocument resumeText={resumeText} suggestions={suggestions} />
       }
-      fileName="resume_suggestions.pdf"
+      fileName={fileName || "Resume_Suggestions.pdf"}
       style={{
         textDecoration: "none",
         padding: "8px 16px",

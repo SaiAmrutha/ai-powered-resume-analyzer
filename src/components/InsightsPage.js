@@ -46,13 +46,15 @@ const InsightsPage = () => {
 
   return (
     <div className="p-2 max-w-6xl mx-auto">
-      <h1 className="text-6xl font-bold text-center mb-10 underline">
+      <h1 className="text-6xl font-bold text-center mb-10 underline dark:text-white">
         Resume Insights Dashboard
       </h1>
 
       {/* Match Score Over Time */}
       <div className="mb-10">
-        <h2 className="text-2xl font-semibold mb-3">Match Score Over Time</h2>
+        <h2 className="text-2xl font-semibold mb-3 dark:text-white">
+          Match Score Over Time
+        </h2>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={scores}>
             <XAxis dataKey="date" />
@@ -71,7 +73,7 @@ const InsightsPage = () => {
 
       {/* Resume Legth vs Score */}
       <div className="mb-10">
-        <h2 className="text-2xl font-semibold mb-3">
+        <h2 className="text-2xl font-semibold mb-3 dark:text-white">
           {" "}
           Resume Length vs Match Score
         </h2>
@@ -88,7 +90,7 @@ const InsightsPage = () => {
 
       {/* Top Missing Keywords */}
       <div className="mb-10">
-        <h2 className="text-2xl font-semibold mb-3">
+        <h2 className="text-2xl font-semibold mb-3 dark:text-white">
           {" "}
           Most Frequently Missing Keywords
         </h2>
