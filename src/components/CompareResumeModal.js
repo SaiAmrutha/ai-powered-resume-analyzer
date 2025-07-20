@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { formatSuggestionsToHTML } from "../utils/formatSuggestions";
 function CompareResumeModal({ isOpen, onClose, originalText, suggestedText }) {
-  const [suggestions, setSuggestions] = useState("");
   if (!isOpen) return null;
 
   return (

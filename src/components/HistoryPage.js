@@ -36,7 +36,7 @@ function HistoryPage() {
   };
 
   const toggleSelectAll = () => {
-    if (selectedIds.length == history.length) {
+    if (selectedIds.length === history.length) {
       setSelectedIds([]);
     } else {
       setSelectedIds(history.map((item) => item.id));

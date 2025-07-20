@@ -1,5 +1,5 @@
 export const formatSuggestionsForPDF = (suggestions) => {
-  const lines = suggestions.split("\n").filter((line) => line.trim() != "");
+  const lines = suggestions.split("\n").filter((line) => line.trim() !== "");
 
   return lines.map((line, index) => {
     const isHeading = /^\*{1,2}(.+?)\*{1,2}:?$/.test(line.trim());

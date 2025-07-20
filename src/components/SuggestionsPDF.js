@@ -24,7 +24,6 @@ const sanitizeText = (text) =>
     .replace(/<|>/g, ""); //explicitly removes angle braces
 
 export function ResumeDocument({ resumeText, suggestions }) {
-  const suggestionItems = suggestions.split("\n").filter(Boolean);
   const formattedSuggestions = formatSuggestionsForPDF(suggestions || "");
 
   return (

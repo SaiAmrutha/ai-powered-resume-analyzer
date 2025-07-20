@@ -4,7 +4,6 @@ import { calculateMatchScore } from "../utils/calculateMatchScore";
 import { GEMINI_API_KEY } from "../utils/constants";
 import { extractPdfText } from "../utils/extractPdfText";
 import { formatSuggestionsToHTML } from "../utils/formatSuggestions";
-import { useDarkMode } from "../utils/useDarkMode";
 import CompareResumeModal from "./CompareResumeModal";
 import DarkModeToggle from "./DarkModeToggle";
 import InsightsModal from "./InsightsModal";
@@ -23,7 +22,6 @@ function HomePage() {
   const suggestionsRef = useRef(null);
   const [activeTab, setActiveTab] = useState("analyzer");
   const [showInsightsModal, setShowInsightsModal] = useState(false);
-  const [darkMode, setDarkMode] = useDarkMode();
 
   // file upload section for PDF or docx
   const {

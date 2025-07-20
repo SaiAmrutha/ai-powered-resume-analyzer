@@ -1,9 +1,7 @@
-import { useDarkMode } from "../utils/useDarkMode";
 import DarkModeToggle from "./DarkModeToggle";
 import InsightsPage from "./InsightsPage";
 
 const InsightsModal = ({ onClose }) => {
-  const [darkMode, setDarkMode] = useDarkMode();
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 dark:bg-opacity-80 flex justify-center items-center z-50">
       <div className="bg-white dark:bg-gray-900 p-6 rounded-xl w-[70vw] h-[70vh] overflow-y-auto relative shadow-xl dark:text-white transition-colors duration-500">

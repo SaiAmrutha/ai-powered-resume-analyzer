@@ -4,19 +4,22 @@ An AI-based web app that helps job seekers optimize their resumes by analyzing j
 
 ## ✨ Features
 
-- 📄 Upload Resume (PDF/DOCX)
-- 📝 Paste Job Description
-- 📊 AI-generated suggestions to improve resume match
-- ✅ Match Score calculator
-- 📎 Resume vs JD comparison view
-- 📥 Download Suggestions as PDF
-- 📂 Resume History with sorting, filtering & bulk delete
-- 📈 Insights Dashboard with charts:
-  - Match Score over Time
-  - Resume Length vs Score
-  - Top missing keywords
-- 🔍 Hover preview for long job descriptions
-- 🧭 Clean landing page with “Let’s Get Started” CTA
+✅ Upload Resume (.pdf, .docx)
+✅ Paste Job Description
+✅ Match Score Calculator — smartly evaluates how well your resume aligns with the JD
+✅ AI Suggestions from Gemini API to improve your resume
+✅ Compare View — visually compare original vs AI-improved resume
+✅ Download as PDF — with custom naming & contextual headers (date, job title)
+✅ Copy Suggestions — instantly copy AI text to clipboard
+✅ Tooltip for Match Score — explains how the score is calculated
+✅ Resume History — with filters, sorting, bulk delete, JD preview on hover
+✅ Insights Dashboard with charts:
+📈 Match Score Over Time
+📏 Resume Length vs Match Score
+🔍 Top Missing Keywords
+✅ Dark Mode Toggle 🌙
+✅ Responsive UI — mobile-friendly experience
+✅ Clean Landing Page — with "Let’s Get Started" CTA
 
 ## 🛠 Tech Stack
 
@@ -35,15 +38,19 @@ npm install
 ```
 
 - Add your Gemini API Key in utils/constants.js:
-  export const GEMINI_API_KEY = "your-api-key";
-  npm start
+  `bash export const GEMINI_API_KEY = "your-api-key";`
+  `bash npm start `
 
 ## Why It Stands Out
 
 Unlike generic resume builders, this app:
 
-- Offers smart AI-powered suggestions based on job descriptions
-- Gives recruiters-style match scoring
-- Helps you visually compare original vs AI-improved resumes
-- Turns resume data into actionable charts and insights
-- Requires no backend or auth — quick and easy!
+💡 Gives personalized, AI-driven resume suggestions
+
+📊 Visualizes resume trends with insightful charts
+
+🔁 Allows real-time comparison between original & improved resumes
+
+⚡ Works completely client-side — no backend, no authentication needed
+
+🎯 Built from scratch — no templates or tutorials, just pure learning and execution
