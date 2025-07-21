@@ -111,24 +111,42 @@ function HomePage() {
   };
 
   // geminiAPI call to get AI suggestions
-  const fetchGeminiSuggestions = async (resumeText, jobDescription) => {
+  const fetchGeminiSuggestions = async (
+    resumeText,
+    jobDescription,
+    retries = 2
+  ) => {
     const prompt = `Here is a resume:\n${resumeText}\n\nAnd here is a job description:\n${jobDescription}\n\nSuggest resume improvements to better match the job description.`;
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+          }),
+        }
+      );
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-        }),
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
       }
-    );
-    const data = await response.json();
-    const suggestion = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    return suggestion || "No AI suggestions available.";
+
+      const data = await response.json();
+      const suggestion = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      return suggestion || "No AI suggestions available.";
+    } catch (err) {
+      if (retries > 0) {
+        console.warn("Retrying Gemini API request...", err.message);
+        return fetchGeminiSuggestions(resumeText, jobDescription, retries - 1);
+      } else {
+        console.error("Gemini API failed:", err.message);
+        return "AI suggestion failed. Please try again later.";
+      }
+    }
   };
 
   return (
