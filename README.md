@@ -4,22 +4,20 @@ An AI-based web app that helps job seekers optimize their resumes by analyzing j
 
 ## ✨ Features
 
-✅ Upload Resume (.pdf, .docx)
-✅ Paste Job Description
-✅ Match Score Calculator — smartly evaluates how well your resume aligns with the JD
-✅ AI Suggestions from Gemini API to improve your resume
-✅ Compare View — visually compare original vs AI-improved resume
-✅ Download as PDF — with custom naming & contextual headers (date, job title)
-✅ Copy Suggestions — instantly copy AI text to clipboard
-✅ Tooltip for Match Score — explains how the score is calculated
-✅ Resume History — with filters, sorting, bulk delete, JD preview on hover
-✅ Insights Dashboard with charts:
-📈 Match Score Over Time
-📏 Resume Length vs Match Score
-🔍 Top Missing Keywords
-✅ Dark Mode Toggle 🌙
-✅ Responsive UI — mobile-friendly experience
-✅ Clean Landing Page — with "Let’s Get Started" CTA
+- Match Score Calculator — smartly evaluates how well your resume aligns with the JD
+- AI Suggestions from Gemini API to improve your resume
+- Compare View — visually compare original vs AI-improved resume
+- Download as PDF — with custom naming & contextual headers (date, job title)
+- Copy Suggestions — instantly copy AI text to clipboard
+- Tooltip for Match Score — explains how the score is calculated
+- Resume History — with filters, sorting, bulk delete, JD preview on hover
+- Insights Dashboard with charts:
+ 📈 Match Score Over Time
+ 📏 Resume Length vs Match Score
+ 🔍 Top Missing Keywords
+- Dark Mode Toggle
+- Responsive UI — mobile-friendly experience
+- Clean Landing Page — with "Let’s Get Started" CTA
 
 ## 🛠 Tech Stack
 
